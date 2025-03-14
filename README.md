@@ -75,7 +75,3 @@ This project is undertaken to learn and gain practical experience in:
 * Multi-agent system architectures.
 * Specific Python packages: LlamaIndex, CrewAI, Ollama, ChromaDB, DuckDB, and Redis.
 * Local deployment of LLMs and vector databases.
-
----
-
-Feel free to update this `README.md` as you progress through your project! Good luck!
