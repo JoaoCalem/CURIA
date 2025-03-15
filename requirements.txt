@@ -1,0 +1,4 @@
+llama-index==0.12.24
+crewai==0.105.0
+chromadb==0.6.3
+pypdf==5.3.1
