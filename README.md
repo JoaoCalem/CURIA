@@ -26,12 +26,11 @@ All components are designed to run locally, utilizing local models and storage s
 * **Optional Data Storage:** SQLite
 * **Optional Pub/Sub Messaging:** [Redis](https://redis.io/)
 * **Optional Analytics:** [DuckDB](https://duckdb.org/)
-* **Programming Language:** Python **(Supports Python 3.9 to 3.13) ✅**  
+* **Programming Language:** Python **(Supports Python 3.10 to 3.12) ✅**  
 
 ## Setup Instructions
 
 1.  **Install Dependencies:**  
-    **(Updated to use `requirements.txt`)**  
     ```bash
     pip install -r requirements.txt
     ```
