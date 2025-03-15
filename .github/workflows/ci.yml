@@ -26,9 +26,8 @@ jobs:
           pip install -r requirements.txt
           pip install types-setuptools types-reportlab reportlab black isort
           pip install flake8 mypy bandit pytest
-
-      - name: Set PYTHONPATH
-        run: export PYTHONPATH=$(pwd):$PYTHONPATH
+          pip install -e . --no-build-isolation -v --no-deps \
+            -Csetup-args="--werror"
 
       - name: Check formatting with Black
         run: black .
