@@ -26,14 +26,16 @@ All components are designed to run locally, utilizing local models and storage s
 * **Optional Data Storage:** SQLite
 * **Optional Pub/Sub Messaging:** [Redis](https://redis.io/)
 * **Optional Analytics:** [DuckDB](https://duckdb.org/)
-* **Programming Language:** Python
+* **Programming Language:** Python **(Supports Python 3.9 to 3.13) ✅**  
 
-## Setup Instructions (Initial)
+## Setup Instructions
 
-1.  **Install Dependencies:**
+1.  **Install Dependencies:**  
+    **(Updated to use `requirements.txt`)**  
     ```bash
-    pip install llama-index chromadb ollama crewai duckdb redis python-dotenv
+    pip install -r requirements.txt
     ```
+   
 2.  **Install and Run Ollama:**
     * Follow the instructions on the [Ollama website](https://ollama.ai/download) to install it for your operating system.
     * Run Ollama and ensure you have a suitable model downloaded (e.g., `llama2`). You can download a model using:
@@ -47,6 +49,7 @@ All components are designed to run locally, utilizing local models and storage s
     your-project-directory/
     ├── data/
     │   └── # Your PDF files here
+    ├── requirements.txt  # Updated installation method
     ├── README.md
     └── # Your Python scripts will go here
     ```
