@@ -29,13 +29,13 @@ jobs:
           pip install -e .
 
       - name: Check formatting with Black
-        run: black .
+        run: black . --line-length=80
 
       - name: Check import sorting with isort
         run: isort .
 
       - name: Lint with flake8
-        run: flake8 . --count --show-source --statistics
+        run: flake8 . --count --show-source --statistics --ignore E203
 
       - name: Type check with mypy
         run: mypy .
