@@ -52,7 +52,7 @@ All components are designed to run locally, utilizing local models and storage s
     │   ├── processed/       # For storing processed summaries
     │   └── raw/             # Add your ECJ PDF files here
     ├── requirements.txt     # Installation dependencies
-    ├── src/                 # Python source code
+    ├── curia/                 # Python source code
     │   ├── agents/          # Multi-agent system code
     │   ├── frontend/        # Chat interface and frontend code
     │   └── rag/             # RAG processing logic
