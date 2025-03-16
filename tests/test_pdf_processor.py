@@ -13,7 +13,7 @@ from pathlib import Path
 
 from reportlab.pdfgen import canvas
 
-from src.rag.pdf_processor import PDFProcessor
+from curia.rag.pdf_processor import PDFProcessor
 
 
 class TestPDFProcessor(unittest.TestCase):

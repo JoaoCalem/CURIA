@@ -14,10 +14,9 @@ with open(requirements_path, encoding="utf-8") as f:
     ]
 
 setup(
-    name="legal_rag",
+    name="curia",
     version="0.1",
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
+    packages=find_packages(),
     install_requires=requirements,
     python_requires=">=3.10",
 )
