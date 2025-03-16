@@ -30,7 +30,7 @@ class VectorStoreManager:
         self.embed_model = embed_model
 
         self.logger = logging.getLogger("VectorStoreManager")
-        self.logger.setLevel(logging.INFO)
+
         self.init_components()
 
     def init_components(self) -> None:
@@ -100,7 +100,11 @@ class VectorStoreManager:
 
 if __name__ == "__main__":
 
-    # logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
+    logging.getLogger("chromadb").setLevel(
+        logging.CRITICAL
+    )  # Suppress logs from ChromaDB
+    logging.getLogger("ollama").setLevel(logging.CRITICAL)
 
     vsm = VectorStoreManager()
     vsm.store_document(

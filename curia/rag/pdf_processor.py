@@ -28,7 +28,6 @@ class PDFProcessor:
         self.chunk_size = chunk_size
         self.overlap = overlap
         self.logger = logging.getLogger("PDFProcessor")
-        logging.basicConfig(level=logging.INFO)
 
     def process_pdf(self, pdf_path: Path) -> List[str]:
         """
