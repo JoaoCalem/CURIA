@@ -6,6 +6,7 @@ import logging
 from typing import Any, Dict, List
 
 import chromadb
+import numpy as np
 import ollama
 
 
@@ -70,10 +71,17 @@ class VectorStoreManager:
             # Process in batches to manage memory
             for batch_idx in range(0, total_chunks, batch_size):
                 batch = chunks[batch_idx : batch_idx + batch_size]
-                batch_embeddings = ollama.embed(
+                # Corrected embeddings extraction
+                batch_embeddings_response = ollama.embed(
                     model=self.embed_model, input=batch
                 )
-                batch_embeddings = batch_embeddings["embeddings"]
+
+                batch_embeddings = np.array(
+                    [
+                        np.array(embedding)
+                        for embedding in batch_embeddings_response.embeddings
+                    ]
+                )
 
                 batch_ids = [
                     f"{metadata['source']}_chunk_{batch_idx + i}"
@@ -111,13 +119,16 @@ if __name__ == "__main__":
         chunks=["Sample legal text chunk 1", "Sample chunk 2"],
         metadata={"source": "test_case.pdf"},
     )
-    # an example input
+    # Example query
     PROMPT = "What is the second sample?"
 
-    # generate an embedding for the input, retrieve the most relevant doc
+    # Generate embedding for the query and retrieve results
     response = ollama.embed(model="all-minilm:l6-v2", input=PROMPT)
     results = vsm.collection.query(
-        query_embeddings=response["embeddings"], n_results=1
+        query_embeddings=response["embeddings"],  # Fixed typo in key name
+        n_results=1,
     )
-    data = results["documents"][0][0]
+    # Safe access to documents with direct key access
+    documents = results["documents"]
+    data = documents[0][0] if documents else None
     print(data)
