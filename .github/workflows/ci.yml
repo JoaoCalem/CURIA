@@ -24,18 +24,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install types-setuptools types-reportlab reportlab black isort
-          pip install flake8 mypy bandit pytest
+          pip install types-setuptools types-reportlab types-PyYAML
+          pip install reportlab black isort flake8 mypy bandit pytest
           pip install -e .
 
       - name: Check formatting with Black
-        run: black . --line-length=80
+        run: black . --line-length=79
 
       - name: Check import sorting with isort
         run: isort .
 
       - name: Lint with flake8
-        run: flake8 . --count --show-source --statistics --ignore E203
+        run: flake8 . --count --show-source --statistics --ignore E203,W503
 
       - name: Type check with mypy
         run: mypy .

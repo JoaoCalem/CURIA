@@ -1,0 +1,8 @@
+data:
+  data_path: "data/raw/"
+  db_path: "data/databases/"
+  collection_name: "curia_docs"
+  
+models:
+  embed_model_name: "all-minilm:l6-v2"
+  llm_name: "initium/law_model"
