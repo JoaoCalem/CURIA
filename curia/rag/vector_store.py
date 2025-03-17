@@ -72,15 +72,31 @@ class VectorStore:
         self.restart_database = restart_database
 
         self.logger = logging.getLogger("VectorStore")
+        self.logger.info(
+            "Initializing VectorStore with:\n"
+            "Data path: %s\n"
+            "DB path: %s\n"
+            "Collection: %s\n"
+            "Embed model: %s\n"
+            "LLM: %s",
+            data_path,
+            db_path,
+            collection_name,
+            embed_model_name,
+            llm_name,
+        )
 
-        collection = self.init_database()
-        embed_model, llm = self.init_model()
-        index = self.setup_vector_store(collection, embed_model)
+        collection = self._init_database()
+        if self.restart_database:
+            collection.delete(collection.get()["ids"])
+            self.logger.info("Database restart requested. Deleting all data.")
+        embed_model, llm = self._init_model()
+        index = self._setup_vector_store(collection, embed_model)
         self.query_engine, self.retrieval_engine = self._setup_query_engines(
             index, llm
         )
 
-    def init_database(self) -> chromadb.Collection:
+    def _init_database(self) -> chromadb.Collection:
         """Initialize the ChromaDB client and collection.
 
         Returns:
@@ -98,7 +114,7 @@ class VectorStore:
             self.logger.error("Database initialization failed: %s", str(error))
             raise
 
-    def init_model(self) -> tuple[OllamaEmbedding, Ollama]:
+    def _init_model(self) -> tuple[OllamaEmbedding, Ollama]:
         """Initialize the embedding model and LLM.
 
         Returns:
@@ -123,7 +139,7 @@ class VectorStore:
             self.logger.error("Model initialization failed: %s", str(error))
             raise
 
-    def setup_vector_store(
+    def _setup_vector_store(
         self, collection: chromadb.Collection, embed_model: OllamaEmbedding
     ) -> VectorStoreIndex:
         """Set up the vector store, process new documents, and create indices.
@@ -147,6 +163,7 @@ class VectorStore:
             )
             all_files = self._get_all_files()
             new_files = self._get_new_files(processed_files, all_files)
+            self.logger.info("Found %d new/updated files", len(new_files))
             documents = self._load_documents(new_files)
             index = self._create_index(
                 new_files,
@@ -220,6 +237,7 @@ class VectorStore:
             list: Loaded documents, or None if no new files.
         """
         if not new_files:
+            self.logger.info("Using existing vector store")
             return None
         reader = SimpleDirectoryReader(
             input_files=[
@@ -274,6 +292,10 @@ class VectorStore:
             processed_files (dict): Previously processed files.
             all_files (dict): Current files with modification times.
         """
+        self.logger.debug(
+            "Updating processed files record (total tracked: %d)",
+            len(all_files),
+        )
         processed_files.update(all_files)
         with open(
             processed_files_record, "w", encoding="utf-8"
@@ -293,6 +315,7 @@ class VectorStore:
             BaseQueryEngine: Query engine.
             BaseRetriever: Eetrieval engine.
         """
+        self.logger.info("Initializing query engines")
         query_engine = index.as_query_engine(llm=llm)
         retrieval_engine = index.as_retriever()
 
