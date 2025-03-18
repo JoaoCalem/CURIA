@@ -1,4 +1,8 @@
 llama-index==0.12.24
+llama-index-llms-ollama==0.5.3
+llama-index-embeddings-ollama==0.6.0
+llama-index-vector-stores-chroma==0.4.1
+ollama==0.4.7
 crewai==0.105.0
 chromadb==0.6.3
 pypdf==5.3.1
