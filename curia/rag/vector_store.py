@@ -88,12 +88,14 @@ class VectorStore:
 
         collection = self._init_database()
         if self.restart_database:
-            collection.delete(collection.get()["ids"])
+            ids = collection.get()["ids"]
+            if ids:
+                collection.delete(ids)
             self.logger.info("Database restart requested. Deleting all data.")
+
         embed_model, llm = self._init_model()
-        index = self._setup_vector_store(collection, embed_model)
         self.query_engine, self.retrieval_engine = self._setup_query_engines(
-            index, llm
+            self._setup_vector_store(collection, embed_model), llm
         )
 
     def _init_database(self) -> chromadb.Collection:

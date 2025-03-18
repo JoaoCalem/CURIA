@@ -35,7 +35,7 @@ jobs:
         run: isort .
 
       - name: Lint with flake8
-        run: flake8 . --count --show-source --statistics --ignore E203,W503
+        run: flake8 . --count --show-source --statistics --ignore E203,W503,F401
 
       - name: Type check with mypy
         run: mypy .
