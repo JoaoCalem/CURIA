@@ -95,7 +95,7 @@ class VectorStore:
 
         embed_model, llm = self._init_model()
         self.query_engine, self.retrieval_engine = self._setup_query_engines(
-            self._setup_vector_store(collection, embed_model), llm
+            self._setup_vector_store(collection, embed_model), llm, **kwargs
         )
 
     def _init_database(self) -> chromadb.Collection:
@@ -305,7 +305,7 @@ class VectorStore:
             json.dump(processed_files, file_handle)
 
     def _setup_query_engines(
-        self, index: VectorStoreIndex, llm: Ollama
+        self, index: VectorStoreIndex, llm: Ollama, **kwargs
     ) -> tuple[BaseQueryEngine, BaseRetriever]:
         """Set up query and retrieval engines from the index.
 
@@ -318,7 +318,7 @@ class VectorStore:
             BaseRetriever: Eetrieval engine.
         """
         self.logger.info("Initializing query engines")
-        query_engine = index.as_query_engine(llm=llm)
+        query_engine = index.as_query_engine(llm=llm, **kwargs)
         retrieval_engine = index.as_retriever()
 
         return query_engine, retrieval_engine
@@ -354,7 +354,9 @@ if __name__ == "__main__":
     vectors = VectorStore(restart_database=False)
     print(
         vectors.retrieve(
-            """What is the folowing case about? Court under Article 177 of the
-            EEC Treaty by the Oberlandes­gericht Karlsruhe"""
+            """What happens in case about Parfums Marcel Rochas?"""
         )
+    )
+    print(
+        vectors.query("""What happens in case about Parfums Marcel Rochas?""")
     )
